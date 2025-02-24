@@ -39,22 +39,22 @@ const handleGet = (request, response, parsedUrl) => {
 
   if (parsedUrl.pathname === '/pokemon') {
     jsonHandler.getPokemon(request, response);
-  } 
-  else if (urlParts[0] === 'pokemon') {
-    if (urlParts[1] === 'id' && urlParts.length == 3){
-        const pokeID = urlParts[2];
-        jsonHandler.getPokeID(request, response, pokeID);
+  } else if (parsedUrl.pathname === '/favorites') {
+    jsonHandler.getFavorites(request, response);
+  } else if (parsedUrl.pathname === '/team') {
+    jsonHandler.getTeam(request, response);
+  } else if (urlParts[0] === 'pokemon') {
+    if (urlParts[1] === 'id' && urlParts.length === 3) {
+      const pokeID = urlParts[2];
+      jsonHandler.getPokeID(request, response, pokeID);
+    } else if (urlParts[1] === 'name' && urlParts.length === 3) {
+      const pokeName = urlParts[2];
+      jsonHandler.getPokeName(request, response, pokeName);
+    } else if (urlParts[1] === 'type' && urlParts.length === 3) {
+      const pokeType = urlParts[2];
+      jsonHandler.getPokeType(request, response, pokeType);
     }
-    else if (urlParts[1] === 'name' && urlParts.length == 3) {
-        const pokeName = urlParts[2];
-        jsonHandler.getPokeName(request, response, pokeName);
-    }
-    else if (urlParts[1] === 'type' && urlParts.length == 3) {
-        const pokeType = urlParts[2];
-        jsonHandler.getPokeType(request, response, pokeType);
-    }
-  }
-  else {
+  } else {
     htmlHandler.getIndex(request, response);
   }
 };
