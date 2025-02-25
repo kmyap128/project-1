@@ -44,8 +44,7 @@ const getTeam = (request, response) => {
 };
 
 const getPokeID = (request, response, pokeID) => {
-
-  const pokemon = pokedex.find((p) => p.id === parseInt(pokeID));
+  const pokemon = pokedex.find((p) => p.id === parseInt(pokeID, 10));
 
   if (!pokemon) {
     return respondJSON(request, response, 404, { message: 'Pokémon not found' });
@@ -77,63 +76,49 @@ const getPokeType = (request, response, pokeType) => {
 
 const addFavorite = (request, response) => {
   const responseJSON = {
-    message: "Please enter a valid Pokémon",
-  }
-  
+    message: 'Please enter a valid Pokémon',
+  };
+
   const pokemon = request.body;
 
-  if(!pokemon) {
-    responseJSON.id = 'missingParam'
+  if (!pokemon) {
+    responseJSON.id = 'missingParam';
     return respondJSON(request, response, 400, responseJSON);
   }
-  
-  if(!favorites[pokemon]) {
+
+  if (!favorites[pokemon]) {
     favorites[pokemon] = pokedex.find((p) => p.name === pokemon);
-    responseJSON  = {
-        message: `${pokemon} has been added to favorites!`,
-    }
+    responseJSON.message = `${pokemon} has been added to favorites!`;
     return respondJSON(request, response, 201, responseJSON);
-}
-  else {
-    responseJSON = {
-        message: `${pokemon} is already in favorites!`
-    }
-    return respondJSON(request, response, 204, responseJSON);
   }
 
-
+  responseJSON.message = `${pokemon} is already in favorites!`;
+  return respondJSON(request, response, 204, responseJSON);
 };
 
 const buildTeam = (request, response) => {
-    const responseJSON = {
-        message: "Please enter a valid Pokémon",
-    }
-    const pokemon = request.body;
+  const responseJSON = {
+    message: 'Please enter a valid Pokémon',
+  };
+  const pokemon = request.body;
 
-    if(!pokemon) {
-        responseJSON.id = 'missingParam'
-        return respondJSON(request, response, 400, responseJSON);
-    }
+  if (!pokemon) {
+    responseJSON.id = 'missingParam';
+    return respondJSON(request, response, 400, responseJSON);
+  }
 
-    if(!team[pokemon] && team.length < 6) {
-        team[pokemon] = pokedex.find((p) => p.name === pokemon);
-        responseJSON  = {
-            message: `${pokemon} has been added to your team!`,
-        }
-        return respondJSON(request, response, 201, responseJSON);
-    }
-    else if(team[pokemon]){
-        responseJSON = {
-            message: `${pokemon} is already in favorites!`
-        }
-        return respondJSON(request, response, 204, responseJSON);
-    }
-    else if (team.length == 6){
-        responseJSON = {
-            message: "Your team is full!"
-        }
-        return respondJSON(request, response, 204, responseJSON);
-    }
+  if (!team[pokemon] && team.length < 6) {
+    team[pokemon] = pokedex.find((p) => p.name === pokemon);
+    responseJSON.message = `${pokemon} has been added to your team!`;
+    return respondJSON(request, response, 201, responseJSON);
+  }
+  if (team[pokemon]) {
+    responseJSON.message = `${pokemon} is already in favorites!`;
+    return respondJSON(request, response, 204, responseJSON);
+  }
+
+  responseJSON.message = 'Your team is full!';
+  return respondJSON(request, response, 204, responseJSON);
 };
 
 module.exports = {
@@ -144,4 +129,5 @@ module.exports = {
   getPokeName,
   getPokeType,
   addFavorite,
+  buildTeam,
 };
