@@ -46,7 +46,7 @@ const getTeam = (request, response) => {
 const getPokeID = (request, response, pokeID) => {
   const responseJSON = {
     message: 'Pokémon not found',
-  }
+  };
   const pokemon = pokedex.find((p) => p.id === parseInt(pokeID, 10));
 
   if (!pokemon) {
@@ -60,7 +60,7 @@ const getPokeName = (request, response, pokeName) => {
   const pokemon = pokedex.find((p) => p.name === pokeName);
   const responseJSON = {
     message: 'Pokémon not found',
-  }
+  };
 
   if (!pokemon) {
     return respondJSON(request, response, 404, responseJSON);
@@ -73,7 +73,7 @@ const getPokeType = (request, response, pokeType) => {
   const pokemon = pokedex.filter((p) => p.type.includes(pokeType));
   const responseJSON = {
     message: 'No Pokémon found with this type',
-  }
+  };
 
   if (pokemon.length === 0) {
     return respondJSON(request, response, 404, responseJSON);

@@ -39,7 +39,7 @@ const handleGet = (request, response, parsedUrl) => {
 
   const urlParts = parsedUrl.pathname.split('/').filter(Boolean);
 
-  if(parsedUrl.pathname === '/style.css'){
+  if (parsedUrl.pathname === '/style.css') {
     htmlHandler.getCSS(request, response);
   } else if (parsedUrl.pathname === '/pokemon') {
     jsonHandler.getPokemon(request, response);
