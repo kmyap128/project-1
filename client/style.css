@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&display=swap');
+
+body {
+    background-color: red;
+}
+
+#top {
+    margin: 50px;
+    padding: 20px;
+}
+
+#inputs {
+    margin: 50px;
+    padding: 20px;
+    background-color: black;
+}
+
+#content {
+    margin: 50px;
+    padding: 20px;
+    background-color: white;
+}
+
+h3 {
+    font-family: 'Press Start 2P', sans-serif;
+    color: white;
+}
+

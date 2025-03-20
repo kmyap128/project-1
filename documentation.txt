@@ -2,12 +2,16 @@ What dataset are you using?
 Pokemon dataset
 
 What went right in the development of this project?
+Everything seems to work as expected!
 
 What went wrong in the development of this project?
+Nothing really went wrong, but I did not implement as much as I wanted to. (I did not format the data nicely). Also, when you search for a pokemon, you  must type it with the first letter capitalized, otherwise it won't find it in the dataset.
 
 What did you learn while developing this project?
+I learned more about using node.js and got more proficient in writing code following the request/response process. Initially, the amount of files (server, client, all the response files) intimidated me and I would get lost, but I started to understand the purpose of each of them and was able to easily find the code snippets I was looking for after a while.
 
 If you went above and beyond, how did you do so?
+I made the style of the page fit the theme of a pokedex!
 
 If you used any borrowed code or code fragments, where did you get them from?
 What do the code fragments do? Where are they in your code?

@@ -35,9 +35,13 @@ const handlePost = (request, response, parsedUrl) => {
 };
 
 const handleGet = (request, response, parsedUrl) => {
+  console.log(parsedUrl.pathname);
+
   const urlParts = parsedUrl.pathname.split('/').filter(Boolean);
 
-  if (parsedUrl.pathname === '/pokemon') {
+  if(parsedUrl.pathname === '/style.css'){
+    htmlHandler.getCSS(request, response);
+  } else if (parsedUrl.pathname === '/pokemon') {
     jsonHandler.getPokemon(request, response);
   } else if (parsedUrl.pathname === '/favorites') {
     jsonHandler.getFavorites(request, response);
