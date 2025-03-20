@@ -4,15 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemon API</title>
+    <script>
+        const handleResponse = async (response) => {
+            const content = document.querySelector('#content');
+
+            switch(response.status) {
+                case 200:
+                    content.innerHTML = `<b>Showing Results</b>`;
+                    break;
+                case 201:
+                    content.innerHTML = `<b>Pokemon added</b>`;
+                    break;
+                case 204: 
+                    content.innerHTML = `<b>Could not add pokemon</b>`;
+                    break;
+                case 400:
+                    content.innerHTML = `<b>Bad request</b>`;
+                    break;
+                case 404:
+                    content.innerHTML = `<b>Pokemon not found</b>`;
+                    break;
+                default:
+                    content.innerHTML = `<b>Error code not implemented by client</b>`;
+            }
+            if (response.status === 204){
+                return;
+            }
+            else {
+                let obj = await response.json();
+                console.log(obj);
+                if (obj.message) {
+                content.innerHTML += `<p>${obj.message}</p>`;
+                }
+            }
+        };
+
+        const fetchData = async (url) => {
+            let response = await  fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                },
+            });
+            handleResponse(response);
+        };
+
+        const sendPost = async (url) => {
+            const formData = `pokemon=${document.querySelector('#addInput').value}`;
+
+            let response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json'
+                },
+                body: formData,
+            });
+            handleResponse(response);
+        };
+
+        const init = () => {
+            const pokeButton = document.querySelector('#pokeButton');
+            const favButton = document.querySelector('#favButton');
+            const teamButton = document.querySelector('#teamButton');
+            const searchButton = document.querySelector('#searchButton');
+            const addButton = document.querySelector('#addButton');
+            const buildButton = document.querySelector('#buildButton');
+            const pokeForm = document.querySelector('#pokeForm');
+            const favForm = document.querySelector('#favForm');
+            const teamForm = document.querySelector('#teamForm');
+            const searchType = document.querySelector('#searchType');
+            const searchInput = document.querySelector('#searchInput');
+
+            pokeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                fetchData(pokeForm.getAttribute('action'));
+            });
+            favButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                fetchData(favForm.getAttribute('action'));
+            });
+            teamButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                fetchData(teamForm.getAttribute('action'));
+            });
+            searchButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log(searchType.value + searchInput.value);
+                fetchData(searchType.value + searchInput.value);
+            });
+            addButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                sendPost(addButton.value);
+            });
+            buildButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                sendPost(buildButton.value);
+            });
+        }
+
+        window.onload = init;
+    </script>
 </head>
 <body>
     <section id="top">
         <h3>Pokemon API</h3>
         <form id="pokeForm" action="/pokemon" method="get">
-            <label for="pokemon">Pokemon:</label>
-            <input type="text" name="pokemon" id="nameField">
+            <button id="pokeButton">View All Pokemon</button>
+        </form>
+        <form id="favForm" action="/favorites" method="get">
+            <button id="favButton">View Favorite Pokemon</button>
+        </form>
+        <form id="teamForm" action="/team" method="get">
+            <button id="teamButton">View Team</button>
+        </form>
+    </section>
+    <section id="inputs">
+        <form id="searchForm" method="get">
+            <select id="searchType">
+                <option value="/pokemon/id/">Search by ID</option>
+                <option value="/pokemon/name/">Search by Name</option>
+                <option value="/pokemon/type/">Search by Type</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Enter ID, Name, or Type">
+            <button id="searchButton">Search</button>
         </form>
 
+        <form id="addForm" method="post">
+            <input type="text" id="addInput" placeholder="Enter pokemon name">
+            <button id="addButton" value="/addFavorite">Add to Favorites</button>
+            <button id="buildButton" value="/buildTeam">Add to Team</button>
+        </form>
+    </section>
+    <section id="content">
     </section>
 </body>
 </html>

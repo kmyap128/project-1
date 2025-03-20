@@ -44,34 +44,43 @@ const getTeam = (request, response) => {
 };
 
 const getPokeID = (request, response, pokeID) => {
+  const responseJSON = {
+    message: 'Pokémon not found',
+  }
   const pokemon = pokedex.find((p) => p.id === parseInt(pokeID, 10));
 
   if (!pokemon) {
-    return respondJSON(request, response, 404, { message: 'Pokémon not found' });
+    return respondJSON(request, response, 404, responseJSON);
   }
-  const stringPokemon = JSON.stringify(pokemon);
-  return respondJSON(request, response, 200, stringPokemon);
+  responseJSON.message = JSON.stringify(pokemon);
+  return respondJSON(request, response, 200, responseJSON);
 };
 
 const getPokeName = (request, response, pokeName) => {
   const pokemon = pokedex.find((p) => p.name === pokeName);
+  const responseJSON = {
+    message: 'Pokémon not found',
+  }
 
   if (!pokemon) {
-    return respondJSON(request, response, 404, { message: 'Pokémon not found' });
+    return respondJSON(request, response, 404, responseJSON);
   }
-  const stringPokemon = JSON.stringify(pokemon);
-  return respondJSON(request, response, 200, stringPokemon);
+  responseJSON.message = JSON.stringify(pokemon);
+  return respondJSON(request, response, 200, responseJSON);
 };
 
 const getPokeType = (request, response, pokeType) => {
   const pokemon = pokedex.filter((p) => p.type.includes(pokeType));
-
-  if (pokemon.length === 0) {
-    return respondJSON(request, response, 404, { message: 'No Pokémon found with this type' });
+  const responseJSON = {
+    message: 'No Pokémon found with this type',
   }
 
-  const stringPokemon = JSON.stringify(pokemon);
-  return respondJSON(request, response, 200, stringPokemon);
+  if (pokemon.length === 0) {
+    return respondJSON(request, response, 404, responseJSON);
+  }
+
+  responseJSON.message = JSON.stringify(pokemon);
+  return respondJSON(request, response, 200, responseJSON);
 };
 
 const addFavorite = (request, response) => {
@@ -79,7 +88,7 @@ const addFavorite = (request, response) => {
     message: 'Please enter a valid Pokémon',
   };
 
-  const pokemon = request.body;
+  const { pokemon } = request.body;
 
   if (!pokemon) {
     responseJSON.id = 'missingParam';
@@ -89,6 +98,7 @@ const addFavorite = (request, response) => {
   if (!favorites[pokemon]) {
     favorites[pokemon] = pokedex.find((p) => p.name === pokemon);
     responseJSON.message = `${pokemon} has been added to favorites!`;
+    console.log(favorites);
     return respondJSON(request, response, 201, responseJSON);
   }
 
@@ -100,14 +110,15 @@ const buildTeam = (request, response) => {
   const responseJSON = {
     message: 'Please enter a valid Pokémon',
   };
-  const pokemon = request.body;
+  const { pokemon } = request.body;
 
   if (!pokemon) {
     responseJSON.id = 'missingParam';
     return respondJSON(request, response, 400, responseJSON);
   }
 
-  if (!team[pokemon] && team.length < 6) {
+  console.log(Object.keys(team).length);
+  if (!team[pokemon] && Object.keys(team).length < 6) {
     team[pokemon] = pokedex.find((p) => p.name === pokemon);
     responseJSON.message = `${pokemon} has been added to your team!`;
     return respondJSON(request, response, 201, responseJSON);

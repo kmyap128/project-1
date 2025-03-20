@@ -1,0 +1,14 @@
+What dataset are you using?
+Pokemon dataset
+
+What went right in the development of this project?
+
+What went wrong in the development of this project?
+
+What did you learn while developing this project?
+
+If you went above and beyond, how did you do so?
+
+If you used any borrowed code or code fragments, where did you get them from?
+What do the code fragments do? Where are they in your code?
+Other than code used in previous assignments, I did not borrow code fragments.
